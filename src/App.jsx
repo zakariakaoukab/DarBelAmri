@@ -330,7 +330,7 @@ export default function App() {
       {/* ── NAVBAR ── */}
       <nav className={`navbar${scrolled ? ' scrolled' : ''}`}>
         <a href="#hero" className="navbar-brand">
-          Dar Bel Amri.
+          <img src={logoImg} alt="Dar Bel Amri" className="navbar-logo" />
         </a>
         <ul className="navbar-links">
           <li><a href="#about">À Propos</a></li>

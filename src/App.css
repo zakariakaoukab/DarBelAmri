@@ -43,8 +43,23 @@
   color: var(--fuchsia);
 }
 
+.navbar-logo {
+  height: 95px; /* Extremely prominent */
+  width: auto;
+  object-fit: contain;
+  transition: height 0.4s ease, transform 0.3s ease;
+}
+
+.navbar-brand:hover .navbar-logo {
+  transform: scale(1.05);
+}
+
 .navbar.scrolled .navbar-brand {
   font-size: 1.3rem;
+}
+
+.navbar.scrolled .navbar-logo {
+  height: 65px; /* Shrinks smoothly when scrolling */
 }
 
 .navbar-links {
@@ -79,10 +94,10 @@
 
 @media (max-width: 768px) {
   .navbar-links { display: none; }
-  .navbar { padding: 0.8rem 1.5rem; }
+  .navbar { padding: 0.8rem 1.5rem; justify-content: center; }
   .navbar.scrolled { padding: 0.5rem 1.5rem; }
-  .navbar-brand { font-size: 1.2rem; }
-  .navbar.scrolled .navbar-brand { font-size: 1.1rem; }
+  .navbar-logo { height: 85px; } /* Keeps it huge on mobile */
+  .navbar.scrolled .navbar-logo { height: 55px; }
 }
 
 /* ---- HERO ---- */
