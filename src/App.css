@@ -47,7 +47,17 @@
   height: 95px; /* Extremely prominent */
   width: auto;
   object-fit: contain;
-  transition: height 0.4s ease, transform 0.3s ease;
+  transition: height 0.4s ease, transform 0.3s ease, opacity 0.8s ease, filter 0.8s ease;
+}
+
+.navbar-logo.loading {
+  opacity: 0;
+  filter: blur(10px);
+}
+
+.navbar-logo.loaded {
+  opacity: 1;
+  filter: blur(0);
 }
 
 .navbar-brand:hover .navbar-logo {

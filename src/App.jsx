@@ -4,8 +4,8 @@ import './App.css'
 
 import p250 from './assets/p250.png'
 import p500 from './assets/p500.png'
-import p1l  from './assets/p1l.png'
-import logoImg from './assets/logo.png'
+import p1l from './assets/p1l.png'
+import logoImg from './assets/logo1.png'
 
 /* ─────────────────────────────────────────────
    THREE.JS PARTICLE BACKGROUND
@@ -285,6 +285,8 @@ function Marquee() {
 export default function App() {
   // Navbar scroll effect
   const [scrolled, setScrolled] = useState(false)
+  const [logoLoaded, setLogoLoaded] = useState(false)
+
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 60)
     window.addEventListener('scroll', onScroll, { passive: true })
@@ -330,7 +332,12 @@ export default function App() {
       {/* ── NAVBAR ── */}
       <nav className={`navbar${scrolled ? ' scrolled' : ''}`}>
         <a href="#hero" className="navbar-brand">
-          <img src={logoImg} alt="Dar Bel Amri" className="navbar-logo" />
+          <img 
+            src={logoImg} 
+            alt="Dar Bel Amri" 
+            className={`navbar-logo ${logoLoaded ? 'loaded' : 'loading'}`}
+            onLoad={() => setLogoLoaded(true)}
+          />
         </a>
         <ul className="navbar-links">
           <li><a href="#about">À Propos</a></li>
