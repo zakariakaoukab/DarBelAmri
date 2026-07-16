@@ -5,11 +5,13 @@ import './App.css'
 import p250 from './assets/p250.png'
 import p500 from './assets/p500.png'
 import p1l  from './assets/p1l.png'
+import logoImg from './assets/logo.png'
 
 /* ─────────────────────────────────────────────
    THREE.JS PARTICLE BACKGROUND
-   600 golden pollen particles, mouse-parallax
+   Majestic Trefoil Torus Knot, Smooth & Creative
 ───────────────────────────────────────────── */
+
 function Background3D() {
   const mountRef = useRef(null)
 
@@ -18,50 +20,118 @@ function Background3D() {
     if (!container) return
 
     const scene    = new THREE.Scene()
-    const camera   = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
-    camera.position.z = 50
+    // Soft fog
+    scene.fog = new THREE.FogExp2(0x000000, 0.012)
+
+    const camera   = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000)
+    camera.position.z = 45
 
     const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true })
     renderer.setSize(window.innerWidth, window.innerHeight)
-    renderer.setPixelRatio(window.devicePixelRatio)
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
     renderer.setClearColor(0x000000, 0)
     container.appendChild(renderer.domElement)
 
-    // Particle cloud
-    const count     = 600
-    const positions = []
-    const sizes     = []
-    for (let i = 0; i < count; i++) {
-      positions.push((Math.random() - 0.5) * 200) // x
-      positions.push((Math.random() - 0.5) * 200) // y
-      positions.push((Math.random() - 0.5) * 200) // z
-      sizes.push(Math.random() * 2)
+    // Lighting
+    const ambientLight = new THREE.AmbientLight(0xffffff, 2.0)
+    scene.add(ambientLight)
+
+    const dirLight1 = new THREE.DirectionalLight(0xffffff, 4.0)
+    dirLight1.position.set(20, 20, 10)
+    scene.add(dirLight1)
+
+    const dirLight2 = new THREE.DirectionalLight(0xffaadd, 2.0)
+    dirLight2.position.set(-20, -10, -10)
+    scene.add(dirLight2)
+
+    // Geometry: Delicate tear-drop petal
+    const petalGeo = new THREE.SphereGeometry(1, 16, 16)
+    const posAttribute = petalGeo.attributes.position
+    const v = new THREE.Vector3()
+    for (let i = 0; i < posAttribute.count; i++) {
+      v.fromBufferAttribute(posAttribute, i)
+      v.z *= 0.1
+      v.y *= 1.8
+      if (v.y < 0) {
+        v.x *= Math.max(0, 1 + v.y / 1.8)
+      } else {
+        v.x *= 1 - (v.y / 1.8) * 0.4
+      }
+      v.z += Math.pow(v.y, 2) * 0.15
+      posAttribute.setXYZ(i, v.x, v.y, v.z)
     }
+    petalGeo.computeVertexNormals()
 
-    const geo = new THREE.BufferGeometry()
-    geo.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3))
-    geo.setAttribute('size',     new THREE.Float32BufferAttribute(sizes, 1))
-
-    const mat = new THREE.PointsMaterial({
-      color:          0xD4AF37, // Gold
-      size:           0.5,
-      transparent:    true,
-      opacity:        0.6,
-      sizeAttenuation:true,
+    // Material: Premium translucent velvet
+    const petalMat = new THREE.MeshPhysicalMaterial({
+      color: 0xffffff,
+      roughness: 0.25,
+      metalness: 0.15,
+      clearcoat: 0.5,
+      clearcoatRoughness: 0.2,
+      transmission: 0.5,
+      thickness: 0.5,
+      side: THREE.DoubleSide
     })
 
-    const particles = new THREE.Points(geo, mat)
-    scene.add(particles)
+    const count = 450
+    const instancedMesh = new THREE.InstancedMesh(petalGeo, petalMat, count)
+    scene.add(instancedMesh)
 
-    // Mouse parallax
-    let mouseX = 0, mouseY = 0
+    const colorFuchsia = new THREE.Color('#E6007E')
+    const colorGold = new THREE.Color('#D4AF37')
+
+    // Particle state for Trefoil knot
+    const particleData = []
+    for (let i = 0; i < count; i++) {
+      const isGold = Math.random() > 0.85
+      instancedMesh.setColorAt(i, isGold ? colorGold : colorFuchsia)
+
+      // Base parameter along the knot curve (0 to 2PI)
+      const baseT = (i / count) * Math.PI * 2
+
+      // Scatter offsets scaled up massively so they form a full-screen ambient cloud
+      const tubeAngle = Math.random() * Math.PI * 2
+      const tubeRadius = Math.random() * 15 + 2 
+      const scatterX = Math.cos(tubeAngle) * tubeRadius
+      const scatterY = Math.sin(tubeAngle) * tubeRadius
+      const scatterZ = Math.sin(tubeAngle + baseT) * tubeRadius 
+
+      particleData.push({
+        baseT,
+        scatterX,
+        scatterY,
+        scatterZ,
+        spin: new THREE.Vector3(
+          (Math.random() - 0.5) * 0.02,
+          (Math.random() - 0.5) * 0.02,
+          (Math.random() - 0.5) * 0.02
+        ),
+        rotation: new THREE.Vector3(
+          Math.random() * Math.PI,
+          Math.random() * Math.PI,
+          Math.random() * Math.PI
+        ),
+        scale: Math.random() * 0.3 + 0.2, // Increased size for better visibility
+        phase: Math.random() * Math.PI * 2
+      })
+    }
+    instancedMesh.instanceMatrix.setUsage(THREE.DynamicDrawUsage)
+
+    // Interaction states
+    let targetScrollY = window.scrollY
+    let currentScrollY = window.scrollY
+    const onScroll = () => { targetScrollY = window.scrollY }
+    window.addEventListener('scroll', onScroll, { passive: true })
+
+    const mouse = new THREE.Vector2(0, 0)
+    const targetMouse = new THREE.Vector2(0, 0)
     const onMouse = (e) => {
-      mouseX = (e.clientX - window.innerWidth  / 2) * 0.05
-      mouseY = (e.clientY - window.innerHeight / 2) * 0.05
+      targetMouse.x = (e.clientX / window.innerWidth) * 2 - 1
+      targetMouse.y = -(e.clientY / window.innerHeight) * 2 + 1
     }
     window.addEventListener('mousemove', onMouse)
 
-    // Resize
     const onResize = () => {
       camera.aspect = window.innerWidth / window.innerHeight
       camera.updateProjectionMatrix()
@@ -69,26 +139,80 @@ function Background3D() {
     }
     window.addEventListener('resize', onResize)
 
-    // Animation
     let frameId
+    const dummy = new THREE.Object3D()
+    const clock = new THREE.Clock()
+
     const animate = () => {
       frameId = requestAnimationFrame(animate)
-      particles.rotation.x += 0.0005
-      particles.rotation.y += 0.001
-      camera.position.x += (mouseX - camera.position.x) * 0.05
-      camera.position.y += (-mouseY - camera.position.y) * 0.05
+      const time = clock.getElapsedTime()
+
+      // Smooth interpolations
+      currentScrollY += (targetScrollY - currentScrollY) * 0.05
+      mouse.lerp(targetMouse, 0.05)
+
+      // The entire knot gently tilts with the mouse
+      instancedMesh.rotation.y = mouse.x * 0.3 + Math.sin(time * 0.2) * 0.1
+      instancedMesh.rotation.x = -mouse.y * 0.3 + Math.cos(time * 0.2) * 0.1
+      instancedMesh.position.y = currentScrollY * 0.05
+
+      // Trefoil Knot constants (Scaled up to fill screens)
+      const p = 2, q = 3
+      const R = 35 // Massive main radius
+      const r = 15 // Massive minor radius
+
+
+      for (let i = 0; i < count; i++) {
+        const data = particleData[i]
+
+        // Petals constantly flow along the knot curve
+        const t = data.baseT + time * 0.15 
+
+        // Trefoil math
+        const rad = R + r * Math.cos(q * t)
+        let x = rad * Math.cos(p * t)
+        let y = rad * Math.sin(p * t)
+        let z = r * Math.sin(q * t)
+
+        // Add "breathing" tube scatter
+        const breath = 1.0 + Math.sin(time * 2.0 + data.phase) * 0.2
+        x += data.scatterX * breath
+        y += data.scatterY * breath
+        z += data.scatterZ * breath
+
+        // Apply position
+        dummy.position.set(x, y, z)
+
+        // Smooth spin
+        data.rotation.x += data.spin.x
+        data.rotation.y += data.spin.y
+        data.rotation.z += data.spin.z
+        dummy.rotation.set(data.rotation.x, data.rotation.y, data.rotation.z)
+
+        dummy.scale.set(data.scale, data.scale, data.scale)
+        dummy.updateMatrix()
+        instancedMesh.setMatrixAt(i, dummy.matrix)
+      }
+
+      instancedMesh.instanceMatrix.needsUpdate = true
+
+      // Cinematic slow camera drift
+      camera.position.x += (mouse.x * 3 - camera.position.x) * 0.02
+      camera.position.y += (mouse.y * 3 - camera.position.y) * 0.02
       camera.lookAt(scene.position)
+
       renderer.render(scene, camera)
     }
     animate()
 
     return () => {
       cancelAnimationFrame(frameId)
+      window.removeEventListener('scroll', onScroll)
       window.removeEventListener('mousemove', onMouse)
       window.removeEventListener('resize', onResize)
       renderer.dispose()
-      geo.dispose()
-      mat.dispose()
+      petalGeo.dispose()
+      petalMat.dispose()
       if (container.contains(renderer.domElement)) container.removeChild(renderer.domElement)
     }
   }, [])
@@ -250,7 +374,7 @@ export default function App() {
           <div className="about-inner" style={{ marginTop: '6rem' }}>
             {/* Image column (Now Logo) */}
             <div className="about-logo-wrap reveal" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-              <img src="/logo.png" alt="Société Fleurs d'Oranger — Dar Bel Amri" style={{ width: '100%', maxWidth: '500px', filter: 'drop-shadow(0 10px 20px rgba(27,20,100,0.1))' }} />
+              <img src={logoImg} alt="Société Fleurs d'Oranger — Dar Bel Amri" style={{ width: '100%', maxWidth: '500px', filter: 'drop-shadow(0 10px 20px rgba(27,20,100,0.1))' }} />
             </div>
 
             {/* Text column */}
