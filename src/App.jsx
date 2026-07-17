@@ -615,19 +615,22 @@ export default function App() {
               </div>
             </div>
 
-            {/* Legal bar */}
+          </div>
+
+          {/* Legal bar */}
+          <div className="footer-bar-wrapper">
             <div className="footer-bar">
               <p>© {new Date().getFullYear()} شركة Fleur d'Oranger. جميع الحقوق محفوظة.</p>
-              <div className="footer-legal" style={{ color: '#1B1464', fontSize: '0.75rem', letterSpacing: '0.05em', direction: 'ltr' }}>
+              <div className="footer-legal" style={{ color: 'var(--cream)', fontSize: '0.75rem', letterSpacing: '0.05em', direction: 'ltr' }}>
                 <span style={{ fontWeight: 600, opacity: 1 }}>ONSSA: PAR.2.377.26</span>
                 <span className="sep" style={{ opacity: 0.6 }}>|</span>
-                <span style={{ fontWeight: 300, opacity: 0.6 }}>IF: 3342747</span>
+                <span style={{ fontWeight: 300, opacity: 0.8 }}>IF: 3342747</span>
                 <span className="sep" style={{ opacity: 0.6 }}>|</span>
-                <span style={{ fontWeight: 300, opacity: 0.6 }}>Patente: 28414774</span>
+                <span style={{ fontWeight: 300, opacity: 0.8 }}>Patente: 28414774</span>
                 <span className="sep" style={{ opacity: 0.6 }}>|</span>
-                <span style={{ fontWeight: 300, opacity: 0.6 }}>R.C: 16573</span>
+                <span style={{ fontWeight: 300, opacity: 0.8 }}>R.C: 16573</span>
                 <span className="sep" style={{ opacity: 0.6 }}>|</span>
-                <span style={{ fontWeight: 300, opacity: 0.6 }}>ICE: 000193479000002</span>
+                <span style={{ fontWeight: 300, opacity: 0.8 }}>ICE: 000193479000002</span>
               </div>
             </div>
           </div>
