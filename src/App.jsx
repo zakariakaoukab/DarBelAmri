@@ -365,6 +365,8 @@ export default function App() {
         <ul className="navbar-links">
           <li><a href="#about">من نحن</a></li>
           <li><a href="#products">منتجاتنا</a></li>
+          <li><a href="#vision">رؤيتنا</a></li>
+          <li><a href="#founder">كلمة المؤسس</a></li>
           <li><a href="#contact">اتصل بنا</a></li>
         </ul>
       </nav>

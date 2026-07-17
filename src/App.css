@@ -212,14 +212,16 @@
   border-bottom: 1px solid rgba(27, 20, 100, 0.1);
   padding: 1.2rem 0;
   background: var(--cream);
+  direction: ltr;
 }
 
 .marquee-track {
-  display: inline-flex;
+  display: flex;
+  width: max-content;
   align-items: center;
   gap: 4rem;
   white-space: nowrap;
-  animation: marquee 24s linear infinite;
+  animation: marquee 30s linear infinite;
 }
 
 .marquee-track span {
