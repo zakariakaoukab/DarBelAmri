@@ -6,6 +6,7 @@ import p250 from './assets/p250.png'
 import p500 from './assets/p500.png'
 import p1l from './assets/p1l.png'
 import logoImg from './assets/logo1.png'
+import founderImage from './assets/founder_image.png'
 
 /* ─────────────────────────────────────────────
    THREE.JS PARTICLE BACKGROUND
@@ -248,6 +249,28 @@ const InstagramIcon = () => (
   </svg>
 )
 
+const ShieldCheckIcon = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+    stroke="#D4AF37" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+    <path d="m9 12 2 2 4-4"></path>
+  </svg>
+)
+
+const WhatsAppIcon = () => (
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+    stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+  </svg>
+)
+
+const FacebookIcon = () => (
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+    stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
+  </svg>
+)
+
 const ArrowRightIcon = () => (
   <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
     stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
@@ -260,9 +283,9 @@ const ArrowRightIcon = () => (
    MARQUEE (doubles content so it loops seamlessly)
 ───────────────────────────────────────────── */
 const marqueeItems = [
-  'DAR BEL AMRI', '✦', 'SOCIÉTÉ FLEURS D\'ORANGER', '✦',
-  'EAU ALIMENTAIRE', '✦', 'DAR BEL AMRI', '✦',
-  'SOCIÉTÉ FLEURS D\'ORANGER', '✦', 'EAU ALIMENTAIRE', '✦',
+  'DAR BEL AMRI', '✦', 'شركة دار بلعامري', '✦',
+  'ماء الزهر الغذائي', '✦', 'DAR BEL AMRI', '✦',
+  'شركة دار بلعامري', '✦', 'ماء الزهر الغذائي', '✦',
 ]
 
 function Marquee() {
@@ -306,20 +329,20 @@ export default function App() {
   const products = [
     {
       vol: '250 ml',
-      title: 'Format Classique',
-      desc: 'Idéal pour la pâtisserie quotidienne et les infusions marocaines.',
+      title: 'الحجم الكلاسيكي',
+      desc: 'مثالي للاستعمال اليومي في الحلويات والمشروبات المغربية.',
       img: p250,
     },
     {
       vol: '500 ml',
-      title: 'Format Familial',
-      desc: 'Le choix parfait pour les grands événements et les célébrations.',
+      title: 'الحجم العائلي',
+      desc: 'الخيار المثالي للمناسبات والاحتفالات الكبيرة.',
       img: p500,
     },
     {
       vol: '1 Litre',
-      title: 'Format Professionnel',
-      desc: 'Pensé pour les artisans, chefs et passionnés les plus exigeants.',
+      title: 'الحجم الاحترافي',
+      desc: 'مصمم خصيصاً للحرفيين والطهاة وعشاق الجودة.',
       img: p1l,
     },
   ]
@@ -340,9 +363,9 @@ export default function App() {
           />
         </a>
         <ul className="navbar-links">
-          <li><a href="#about">À Propos</a></li>
-          <li><a href="#products">Produits</a></li>
-          <li><a href="#contact">Contact</a></li>
+          <li><a href="#about">من نحن</a></li>
+          <li><a href="#products">منتجاتنا</a></li>
+          <li><a href="#contact">اتصل بنا</a></li>
         </ul>
       </nav>
 
@@ -351,16 +374,22 @@ export default function App() {
         {/* ── HERO ── */}
         <section className="hero" id="hero">
           <div className="hero-inner">
-            <p className="hero-eyebrow reveal">Maison Fondée au Maroc</p>
+            
+            <div className="reveal" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.75rem', marginTop: '1rem', marginBottom: '2rem', fontFamily: '"Tajawal", sans-serif' }}>
+              <ShieldCheckIcon />
+              <div style={{ fontSize: '16px', letterSpacing: '0.05em', color: '#1B1464', display: 'flex', alignItems: 'center' }}>
+                <span style={{ fontWeight: 900, color: '#D32F2F', textShadow: '0 0 1px rgba(211,47,47,0.5)' }}>معتمد من طرف أونسا</span>
+                <span style={{ fontWeight: 500, opacity: 0.8, marginRight: '0.75rem' }}>PAR.2.377.26</span>
+              </div>
+            </div>
 
-            <h1 className="hero-title reveal" style={{ transitionDelay: '0.2s' }}>
-              L'Authenticité de<br />
-              <em>l'Eau de Fleurs d'Oranger</em>
+            <h1 className="hero-title reveal" style={{ transitionDelay: '0.2s', fontSize: 'clamp(2.5rem, 6vw, 5rem)', lineHeight: '1.2' }}>
+              Fleur d'Oranger - Dar Bel Amri<br />
+              <em style={{ fontSize: 'clamp(2rem, 5vw, 4rem)', display: 'block', marginTop: '1rem' }}>نكهة الأصالة المغربية</em>
             </h1>
 
             <p className="hero-subtitle reveal" style={{ transitionDelay: '0.4s' }}>
-              Distillée avec passion selon les traditions marocaines.
-              Une qualité alimentaire exceptionnelle signée Dar Bel Amri.
+              من قلب المنطقة الصناعية بسلا، نقدم لكم خبرة مغربية أصيلة في عالم النكهات الطبيعية وماء الزهر
             </p>
 
             <a
@@ -368,7 +397,7 @@ export default function App() {
               className="hero-cta reveal"
               style={{ transitionDelay: '0.6s' }}
             >
-              Découvrir Nos Produits <ArrowRightIcon />
+              اكتشف منتجاتنا <ArrowRightIcon />
             </a>
           </div>
         </section>
@@ -386,21 +415,16 @@ export default function App() {
 
             {/* Text column */}
             <div className="about-text reveal" style={{ transitionDelay: '0.2s' }}>
-              <p className="about-eyebrow">Notre Histoire</p>
-              <h2 className="about-heading">
-                L'Héritage de la<br />
-                <em>Distillation Artisanale</em>
+              <p className="about-eyebrow">قصتنا</p>
+              <h2 className="about-heading" style={{ lineHeight: '1.3' }}>
+                <em>من نحن</em>
               </h2>
               <div className="about-body">
                 <p>
-                  Nichée au cœur du Maroc, la Société Fleurs d'Oranger perpétue un
-                  savoir-faire ancestral sous la prestigieuse signature de Dar Bel Amri.
+                  شركة مغربية متخصصة في تصنيع وتسويق المواد الأولية للصناعات الغذائية، تأسست سنة 2011 بسلا. تركز الشركة على إنتاج ماء الزهر عالي الجودة، إلى جانب زيوت الزهر للإستعمال الغذائي بكافة الخصوصيات.
                 </p>
                 <p>
-                  Notre eau de fleurs d'oranger est strictement de qualité alimentaire.
-                  Extraite par une lente distillation à la vapeur des pétales fraîchement
-                  cueillis, elle capture l'essence pure du printemps marocain pour sublimer
-                  vos créations culinaires.
+                  بفضل التزامها بمعايير الجودة والسلامة المطابقة للمواصفات المعمول بها، استطاعت أن تحجز مكانة متميزة في السوق المغربي وتزود كبار المصنعين والمستهلكين بمنتجات طبيعية تلبي تطلعاتهم. مما جعل ماء الزهر دار بلعامري سفيرا للأصالة و الجودة المغربية . بشعار: صنع بالمغرب.
                 </p>
               </div>
             </div>
@@ -412,12 +436,11 @@ export default function App() {
           <div className="products-inner">
             <div className="products-header reveal">
               <div>
-                <p className="products-eyebrow">La Collection</p>
-                <h2 className="products-heading">L'Eau Alimentaire</h2>
+                <p className="products-eyebrow">منتجاتنا</p>
+                <h2 className="products-heading">ماء الزهر الغذائي</h2>
               </div>
               <p className="products-subtext">
-                Une pureté garantie, sans additifs artificiels,
-                embouteillée avec soin.
+                نقاء مضمون، بدون إضافات صناعية، معبأ بعناية فائقة.
               </p>
             </div>
 
@@ -439,11 +462,63 @@ export default function App() {
                     <p className="product-desc">{p.desc}</p>
                     <div className="product-divider" />
                     <span className="product-link">
-                      Détails <ArrowRightIcon />
+                      التفاصيل <ArrowRightIcon />
                     </span>
                   </div>
                 </div>
               ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ── VISION, MISSION & VALUES ── */}
+        <section id="vision" className="vision">
+          <div className="vision-inner">
+            <div className="vision-grid">
+              <div className="vision-card reveal">
+                <h3 className="vision-card-title">رؤيتنا</h3>
+                <p>أن نكون العلامة الرائدة في المغرب في إنتاج ماء الزهر والنكهات الطبيعية، ونمثل الجودة والأصالة المغربية في الأسواق المحلية والدولية.</p>
+              </div>
+              <div className="vision-card reveal" style={{ transitionDelay: '0.2s' }}>
+                <h3 className="vision-card-title">رسالتنا</h3>
+                <p>توفير منتجات غذائية طبيعية وآمنة بأعلى معايير الجودة. نلتزم بإنتاج ماء الزهر والنكهات الغذائية التي تلبي احتياجات الأسر، الحرفيين، والصناعيين، مع الحفاظ على التقاليد المغربية وتطويرها بما يواكب متطلبات العصر.</p>
+              </div>
+              <div className="vision-card reveal" style={{ transitionDelay: '0.4s' }}>
+                <h3 className="vision-card-title">قيمنا</h3>
+                <ul className="values-list">
+                  <li><strong>الجودة:</strong> نلتزم بأعلى معايير السلامة.</li>
+                  <li><strong>الأصالة:</strong> نحافظ على النكهة المغربية.</li>
+                  <li><strong>الاحترافية:</strong> منهجية عمل احترافية.</li>
+                  <li><strong>الثقة:</strong> شفافية ومصداقية تامة.</li>
+                  <li><strong>الاستدامة:</strong> مواد طبيعية واحترام للبيئة.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ── WORD FROM THE FOUNDER ── */}
+        <section id="founder" className="founder">
+          <div className="founder-inner">
+            <div className="founder-image-container reveal">
+              <div className="founder-portrait-wrapper">
+                <div className="founder-portrait-bg"></div>
+                <img 
+                  src={founderImage} 
+                  alt="السيد محمد حنكرار" 
+                  className="founder-portrait-img"
+                />
+              </div>
+              <p className="founder-name">السيد محمد حنكرار</p>
+            </div>
+            <div className="founder-text reveal" style={{ transitionDelay: '0.2s' }}>
+              <p className="founder-eyebrow">كلمة المؤسس</p>
+              <h2 className="founder-heading">الجمع بين الأصالة والحداثة</h2>
+              <div className="founder-body">
+                <p>
+                  يقود السيد محمد حنكرار مسيرة التميز في قطاع الصناعات الغذائية والمنتجات النباتية بالمغرب، مجسداً رؤية طموحة تضع الجودة والابتكار في قلب العمليات الإنتاجية لشركتي Fleur d'Oranger Dar Bel Amri و Bassatine Dar Bel Amri. يعتمد منهجه على تحديث آليات التصنيع مع صون الهوية المغربية الأصيلة، إلى جانب بناء شراكات استراتيجية متينة تعزز التنمية الاقتصادية. وبفضل التزامه الراسخ بالاستدامة وإرضاء المستهلكين، يحمل بثقة مسؤولية الارتقاء بالمنتج المحلي تحت راية: <span style={{ fontWeight: 600 }}>"صنع في المغرب"</span>.
+                </p>
+              </div>
             </div>
           </div>
         </section>
@@ -454,21 +529,16 @@ export default function App() {
             <div className="contact-grid">
               {/* Left — contact info */}
               <div className="reveal">
-                <h2 className="contact-heading">Contactez-nous</h2>
+                <h2 className="contact-heading">اتصل بنا</h2>
                 <p className="contact-intro">
-                  Pour toute demande de commande, partenariat ou information
-                  sur nos procédés de distillation.
+                  لأي طلبات، شراكات، أو استفسارات حول منتجاتنا.
                 </p>
 
                 <div className="contact-detail">
                   <div className="contact-icon"><MapPinIcon /></div>
                   <div>
-                    <p className="contact-label">Adresse</p>
-                    <p className="contact-value">
-                      Quartier Industriel Rahma, N° 1244 Secteur D,<br />
-                      Hay Rahma, Salé, Maroc
-                    </p>
-                    <p className="contact-arabic contact-value">
+                    <p className="contact-label">العنوان</p>
+                    <p className="contact-value" style={{ direction: 'rtl' }}>
                       الحي الصناعي الرحمة رقم 1244 قطاع د حي الرحمة سلا
                     </p>
                   </div>
@@ -477,7 +547,7 @@ export default function App() {
                 <div className="contact-detail">
                   <div className="contact-icon"><MailIcon /></div>
                   <div>
-                    <p className="contact-label">Email</p>
+                    <p className="contact-label">البريد الإلكتروني</p>
                     <p className="contact-value">
                       <a href="mailto:darbelamri.rabat@gmail.com">
                         darbelamri.rabat@gmail.com
@@ -489,10 +559,34 @@ export default function App() {
                 <div className="contact-detail">
                   <div className="contact-icon"><InstagramIcon /></div>
                   <div>
-                    <p className="contact-label">Instagram</p>
+                    <p className="contact-label">إنستغرام</p>
                     <p className="contact-value">
                       <a href="https://instagram.com/fleursdoranger_darbelamri" target="_blank" rel="noreferrer">
                         @fleursdoranger_darbelamri
+                      </a>
+                    </p>
+                  </div>
+                </div>
+
+                <div className="contact-detail">
+                  <div className="contact-icon"><WhatsAppIcon /></div>
+                  <div>
+                    <p className="contact-label">واتساب</p>
+                    <p className="contact-value">
+                      <a href="https://wa.me/212661352715" target="_blank" rel="noreferrer" style={{ direction: 'ltr', display: 'inline-block' }}>
+                        +212 661 352 715
+                      </a>
+                    </p>
+                  </div>
+                </div>
+
+                <div className="contact-detail">
+                  <div className="contact-icon"><FacebookIcon /></div>
+                  <div>
+                    <p className="contact-label">فيسبوك</p>
+                    <p className="contact-value">
+                      <a href="#" target="_blank" rel="noreferrer">
+                        Société Fleurs d'Oranger
                       </a>
                     </p>
                   </div>
@@ -503,19 +597,19 @@ export default function App() {
               <div className="reveal" style={{ transitionDelay: '0.2s' }}>
                 <form className="contact-form-card" onSubmit={e => e.preventDefault()}>
                   <div className="form-field">
-                    <label className="form-label" htmlFor="name">Nom Complet</label>
+                    <label className="form-label" htmlFor="name">الاسم الكامل</label>
                     <input id="name" type="text" className="form-input" />
                   </div>
                   <div className="form-field">
-                    <label className="form-label" htmlFor="email">Email</label>
+                    <label className="form-label" htmlFor="email">البريد الإلكتروني</label>
                     <input id="email" type="email" className="form-input" />
                   </div>
                   <div className="form-field">
-                    <label className="form-label" htmlFor="message">Message</label>
+                    <label className="form-label" htmlFor="message">الرسالة</label>
                     <textarea id="message" rows="4" className="form-textarea" />
                   </div>
                   <button type="submit" className="form-submit">
-                    Envoyer le message
+                    إرسال الرسالة
                   </button>
                 </form>
               </div>
@@ -523,15 +617,17 @@ export default function App() {
 
             {/* Legal bar */}
             <div className="footer-bar">
-              <p>© {new Date().getFullYear()} Société Fleurs d'Oranger. Tous droits réservés.</p>
-              <div className="footer-legal">
-                <span>IF: 3342747</span>
-                <span className="sep">•</span>
-                <span>Patente: 28414774</span>
-                <span className="sep">•</span>
-                <span>R.C: 16573</span>
-                <span className="sep">•</span>
-                <span>ICE: 000193479000002</span>
+              <p>© {new Date().getFullYear()} شركة Fleur d'Oranger. جميع الحقوق محفوظة.</p>
+              <div className="footer-legal" style={{ color: '#1B1464', fontSize: '0.75rem', letterSpacing: '0.05em', direction: 'ltr' }}>
+                <span style={{ fontWeight: 600, opacity: 1 }}>ONSSA: PAR.2.377.26</span>
+                <span className="sep" style={{ opacity: 0.6 }}>|</span>
+                <span style={{ fontWeight: 300, opacity: 0.6 }}>IF: 3342747</span>
+                <span className="sep" style={{ opacity: 0.6 }}>|</span>
+                <span style={{ fontWeight: 300, opacity: 0.6 }}>Patente: 28414774</span>
+                <span className="sep" style={{ opacity: 0.6 }}>|</span>
+                <span style={{ fontWeight: 300, opacity: 0.6 }}>R.C: 16573</span>
+                <span className="sep" style={{ opacity: 0.6 }}>|</span>
+                <span style={{ fontWeight: 300, opacity: 0.6 }}>ICE: 000193479000002</span>
               </div>
             </div>
           </div>
