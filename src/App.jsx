@@ -5,7 +5,7 @@ import './App.css'
 import p250 from './assets/p250.png'
 import p500 from './assets/p500.png'
 import p1l from './assets/p1l.png'
-import logoImg from './assets/logo1.png'
+import logoImg from './assets/logo_final.png'
 import founderImage from './assets/founder_image.png'
 
 /* ─────────────────────────────────────────────
@@ -279,6 +279,50 @@ const ArrowRightIcon = () => (
   </svg>
 )
 
+const BadgeRibbonIcon = () => (
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="#D4AF37" xmlns="http://www.w3.org/2000/svg">
+    <path d="M12 15C15.3137 15 18 12.3137 18 9C18 5.68629 15.3137 3 12 3C8.68629 3 6 5.68629 6 9C6 12.3137 8.68629 15 12 15Z"/>
+    <path d="M8.2111 14.2831L6 21L12 18.5L18 21L15.7889 14.2831C14.7317 15.3563 13.4299 16 12 16C10.5701 16 9.26833 15.3563 8.2111 14.2831Z"/>
+  </svg>
+)
+
+const WAPaperPlaneIcon = () => (
+  <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
+    <path d="M1.101,21.757L23.8,12.028L1.101,2.3l0.011,7.912l13.623,1.816L1.112,13.845 L1.101,21.757z"></path>
+  </svg>
+)
+
+const EyeIcon = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+    stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+    <circle cx="12" cy="12" r="3"></circle>
+  </svg>
+)
+
+const TargetIcon = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+    stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+    <circle cx="12" cy="12" r="10"></circle>
+    <circle cx="12" cy="12" r="6"></circle>
+    <circle cx="12" cy="12" r="2"></circle>
+  </svg>
+)
+
+const StarIcon = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+    stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+  </svg>
+)
+
+const CloseIcon = () => (
+  <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <line x1="18" y1="6" x2="6" y2="18"></line>
+    <line x1="6" y1="6" x2="18" y2="18"></line>
+  </svg>
+)
+
 /* ─────────────────────────────────────────────
    MARQUEE (doubles content so it loops seamlessly)
 ───────────────────────────────────────────── */
@@ -306,9 +350,31 @@ function Marquee() {
    MAIN APP
 ───────────────────────────────────────────── */
 export default function App() {
-  // Navbar scroll effect
   const [scrolled, setScrolled] = useState(false)
   const [logoLoaded, setLogoLoaded] = useState(false)
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const [whatsappMsg, setWhatsappMsg] = useState("")
+  const [activeTheme, setActiveTheme] = useState('light')
+
+  useEffect(() => {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const isDark = entry.target.hasAttribute('data-theme-dark')
+          setActiveTheme(isDark ? 'dark' : 'light')
+        }
+      })
+    }, { rootMargin: '-70px 0px -85% 0px' }) 
+
+    document.querySelectorAll('section, footer').forEach(section => observer.observe(section))
+    return () => observer.disconnect()
+  }, [])
+
+  const handleWhatsAppSend = () => {
+    if (!whatsappMsg.trim()) return;
+    const url = `https://wa.me/212661352715?text=${encodeURIComponent(whatsappMsg)}`;
+    window.open(url, '_blank');
+  };
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 60)
@@ -351,16 +417,23 @@ export default function App() {
     <>
       {/* ── 3-D BACKGROUND ── */}
       <Background3D />
+      <div dir="rtl" style={{ overflowX: 'hidden', background: 'var(--cream)', color: 'var(--navy)' }}>
 
       {/* ── NAVBAR ── */}
-      <nav className={`navbar${scrolled ? ' scrolled' : ''}`}>
+      <nav className={`navbar ${scrolled ? 'scrolled' : ''} ${activeTheme === 'dark' ? 'theme-dark' : 'theme-light'}`}>
         <a href="#hero" className="navbar-brand">
-          <img 
-            src={logoImg} 
-            alt="Dar Bel Amri" 
-            className={`navbar-logo ${logoLoaded ? 'loaded' : 'loading'}`}
-            onLoad={() => setLogoLoaded(true)}
-          />
+          <div className="navbar-logo-wrap">
+            <img 
+              src={logoImg} 
+              alt="Dar Bel Amri" 
+              className={`navbar-logo ${logoLoaded ? 'loaded' : 'loading'}`}
+              onLoad={() => setLogoLoaded(true)}
+            />
+          </div>
+          <div className="navbar-logo-text">
+            <span className="navbar-logo-line1">Fleurs d'Oranger</span>
+            <span className="navbar-logo-line2">دار بلعامري</span>
+          </div>
         </a>
         <ul className="navbar-links">
           <li><a href="#about">من نحن</a></li>
@@ -369,7 +442,29 @@ export default function App() {
           <li><a href="#founder">كلمة المؤسس</a></li>
           <li><a href="#contact">اتصل بنا</a></li>
         </ul>
+        <div className="navbar-left">
+          <a href="#contact" className="navbar-cta">تواصل معنا</a>
+          <button className="mobile-burger" onClick={() => setIsMobileMenuOpen(true)}>
+            <div className="burger-bar"></div>
+            <div className="burger-bar"></div>
+            <div className="burger-bar"></div>
+          </button>
+        </div>
       </nav>
+
+      {/* MOBILE MENU OVERLAY */}
+      <div className={`mobile-menu-overlay ${isMobileMenuOpen ? 'open' : ''}`}>
+        <button className="mobile-menu-close" onClick={() => setIsMobileMenuOpen(false)}>
+          <CloseIcon />
+        </button>
+        <ul className="mobile-menu-links">
+          <li><a href="#about" onClick={() => setIsMobileMenuOpen(false)}>من نحن</a></li>
+          <li><a href="#products" onClick={() => setIsMobileMenuOpen(false)}>منتجاتنا</a></li>
+          <li><a href="#vision" onClick={() => setIsMobileMenuOpen(false)}>رؤيتنا</a></li>
+          <li><a href="#founder" onClick={() => setIsMobileMenuOpen(false)}>كلمة المؤسس</a></li>
+          <li><a href="#contact" onClick={() => setIsMobileMenuOpen(false)}>اتصل بنا</a></li>
+        </ul>
+      </div>
 
       <main style={{ position: 'relative', zIndex: 10, width: '100%' }}>
 
@@ -377,17 +472,18 @@ export default function App() {
         <section className="hero" id="hero">
           <div className="hero-inner">
             
-            <div className="reveal" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.75rem', marginTop: '1rem', marginBottom: '2rem', fontFamily: '"Tajawal", sans-serif' }}>
-              <ShieldCheckIcon />
-              <div style={{ fontSize: '16px', letterSpacing: '0.05em', color: '#1B1464', display: 'flex', alignItems: 'center' }}>
-                <span style={{ fontWeight: 900, color: '#D32F2F', textShadow: '0 0 1px rgba(211,47,47,0.5)' }}>معتمد من طرف أونسا</span>
-                <span style={{ fontWeight: 500, opacity: 0.8, marginRight: '0.75rem' }}>PAR.2.377.26</span>
+            <div className="certification-pill reveal" style={{ transitionDelay: '0.1s' }}>
+              <div className="certification-icon"><ShieldCheckIcon /></div>
+              <div className="certification-text" dir="ltr">
+                <span style={{ fontWeight: 600, color: '#1B1464' }}>PAR.2.377.26</span>
+                <span style={{ color: '#1B1464', margin: '0 0.4rem', fontWeight: '300' }}>-</span>
+                <span style={{ fontWeight: 800, color: '#D32F2F', textShadow: '0 0 1px rgba(211,47,47,0.3)' }}>معتمد من طرف أونسا</span>
               </div>
             </div>
 
             <h1 className="hero-title reveal" style={{ transitionDelay: '0.2s', fontSize: 'clamp(2.5rem, 6vw, 5rem)', lineHeight: '1.2' }}>
               Fleur d'Oranger - Dar Bel Amri<br />
-              <em style={{ fontSize: 'clamp(2rem, 5vw, 4rem)', display: 'block', marginTop: '1rem' }}>نكهة الأصالة المغربية</em>
+              <em style={{ fontSize: 'clamp(2rem, 5vw, 4rem)', display: 'block', marginTop: '1rem', color: 'rgb(230, 0, 126)' }}>نكهة الأصالة المغربية</em>
             </h1>
 
             <p className="hero-subtitle reveal" style={{ transitionDelay: '0.4s' }}>
@@ -434,7 +530,7 @@ export default function App() {
         </section>
 
         {/* ── PRODUCTS ── */}
-        <section id="products" className="products">
+        <section id="products" className="products" data-theme-dark="true">
           <div className="products-inner">
             <div className="products-header reveal">
               <div>
@@ -478,14 +574,17 @@ export default function App() {
           <div className="vision-inner">
             <div className="vision-grid">
               <div className="vision-card reveal">
+                <div className="vision-icon"><EyeIcon /></div>
                 <h3 className="vision-card-title">رؤيتنا</h3>
                 <p>أن نكون العلامة الرائدة في المغرب في إنتاج ماء الزهر والنكهات الطبيعية، ونمثل الجودة والأصالة المغربية في الأسواق المحلية والدولية.</p>
               </div>
               <div className="vision-card reveal" style={{ transitionDelay: '0.2s' }}>
+                <div className="vision-icon"><TargetIcon /></div>
                 <h3 className="vision-card-title">رسالتنا</h3>
                 <p>توفير منتجات غذائية طبيعية وآمنة بأعلى معايير الجودة. نلتزم بإنتاج ماء الزهر والنكهات الغذائية التي تلبي احتياجات الأسر، الحرفيين، والصناعيين، مع الحفاظ على التقاليد المغربية وتطويرها بما يواكب متطلبات العصر.</p>
               </div>
               <div className="vision-card reveal" style={{ transitionDelay: '0.4s' }}>
+                <div className="vision-icon"><StarIcon /></div>
                 <h3 className="vision-card-title">قيمنا</h3>
                 <ul className="values-list">
                   <li><strong>الجودة:</strong> نلتزم بأعلى معايير السلامة.</li>
@@ -500,7 +599,7 @@ export default function App() {
         </section>
 
         {/* ── WORD FROM THE FOUNDER ── */}
-        <section id="founder" className="founder">
+        <section id="founder" className="founder" data-theme-dark="true">
           <div className="founder-inner">
             <div className="founder-image-container reveal">
               <div className="founder-portrait-wrapper">
@@ -528,92 +627,46 @@ export default function App() {
         {/* ── FOOTER / CONTACT ── */}
         <footer id="contact" className="footer">
           <div className="footer-inner">
-            <div className="contact-grid">
-              {/* Left — contact info */}
-              <div className="reveal">
-                <h2 className="contact-heading">اتصل بنا</h2>
-                <p className="contact-intro">
-                  لأي طلبات، شراكات، أو استفسارات حول منتجاتنا.
+            <div className="contact-card-container reveal">
+              <h2 className="contact-heading-new">اتصل بنا</h2>
+              <p className="contact-intro-new">
+                يسعدنا التواصل معكم لطلبات الجملة، التعاون، أو الاستفسار عن منتجات دار بلعامري.
+              </p>
+              
+              <div className="contact-details-stacked">
+                <p className="contact-detail-line address-line">
+                  العنوان: الحي الصناعي الرحمة رقم 1244 قطاع د حي الرحمة سلا
                 </p>
-
-                <div className="contact-detail">
-                  <div className="contact-icon"><MapPinIcon /></div>
-                  <div>
-                    <p className="contact-label">العنوان</p>
-                    <p className="contact-value" style={{ direction: 'rtl' }}>
-                      الحي الصناعي الرحمة رقم 1244 قطاع د حي الرحمة سلا
-                    </p>
-                  </div>
-                </div>
-
-                <div className="contact-detail">
-                  <div className="contact-icon"><MailIcon /></div>
-                  <div>
-                    <p className="contact-label">البريد الإلكتروني</p>
-                    <p className="contact-value">
-                      <a href="mailto:darbelamri.rabat@gmail.com">
-                        darbelamri.rabat@gmail.com
-                      </a>
-                    </p>
-                  </div>
-                </div>
-
-                <div className="contact-detail">
-                  <div className="contact-icon"><InstagramIcon /></div>
-                  <div>
-                    <p className="contact-label">إنستغرام</p>
-                    <p className="contact-value">
-                      <a href="https://instagram.com/fleursdoranger_darbelamri" target="_blank" rel="noreferrer">
-                        @fleursdoranger_darbelamri
-                      </a>
-                    </p>
-                  </div>
-                </div>
-
-                <div className="contact-detail">
-                  <div className="contact-icon"><WhatsAppIcon /></div>
-                  <div>
-                    <p className="contact-label">واتساب</p>
-                    <p className="contact-value">
-                      <a href="https://wa.me/212661352715" target="_blank" rel="noreferrer" style={{ direction: 'ltr', display: 'inline-block' }}>
-                        +212 661 352 715
-                      </a>
-                    </p>
-                  </div>
-                </div>
-
-                <div className="contact-detail">
-                  <div className="contact-icon"><FacebookIcon /></div>
-                  <div>
-                    <p className="contact-label">فيسبوك</p>
-                    <p className="contact-value">
-                      <a href="#" target="_blank" rel="noreferrer">
-                        Société Fleurs d'Oranger
-                      </a>
-                    </p>
-                  </div>
-                </div>
+                <p className="contact-detail-line">
+                  Email: darbelamri.rabat@gmail.com
+                </p>
+                <p className="contact-detail-line" style={{ direction: 'ltr' }}>
+                  WhatsApp: +212 661 352 715
+                </p>
               </div>
 
-              {/* Right — contact form */}
-              <div className="reveal" style={{ transitionDelay: '0.2s' }}>
-                <form className="contact-form-card" onSubmit={e => e.preventDefault()}>
-                  <div className="form-field">
-                    <label className="form-label" htmlFor="name">الاسم الكامل</label>
-                    <input id="name" type="text" className="form-input" />
-                  </div>
-                  <div className="form-field">
-                    <label className="form-label" htmlFor="email">البريد الإلكتروني</label>
-                    <input id="email" type="email" className="form-input" />
-                  </div>
-                  <div className="form-field">
-                    <label className="form-label" htmlFor="message">الرسالة</label>
-                    <textarea id="message" rows="4" className="form-textarea" />
-                  </div>
-                  <button type="submit" className="form-submit">
-                    إرسال الرسالة
-                  </button>
-                </form>
+              <div className="wa-input-container" dir="rtl">
+                <input 
+                  type="text" 
+                  className="wa-input" 
+                  placeholder="اكتب رسالة..." 
+                  value={whatsappMsg}
+                  onChange={(e) => setWhatsappMsg(e.target.value)}
+                  onKeyDown={(e) => e.key === 'Enter' && handleWhatsAppSend()}
+                />
+                <button className={`wa-send-btn ${whatsappMsg.trim() ? 'active' : ''}`} onClick={handleWhatsAppSend}>
+                  <WAPaperPlaneIcon />
+                </button>
+              </div>
+              
+              <div className="social-icons-row">
+                <a href="https://instagram.com/fleursdoranger_darbelamri" target="_blank" rel="noreferrer" className="social-icon-btn"><InstagramIcon /></a>
+                <a href="#" target="_blank" rel="noreferrer" className="social-icon-btn"><FacebookIcon /></a>
+                <a href="tel:+212661352715" className="social-icon-btn"><WhatsAppIcon /></a>
+              </div>
+
+              <div className="footer-social-handles">
+                Instagram: @fleursdoranger_darbelamri <span className="handle-dot">·</span> Facebook: Société Fleurs d'Oranger
               </div>
             </div>
 
@@ -639,6 +692,7 @@ export default function App() {
         </footer>
 
       </main>
+      </div>
     </>
   )
 }
