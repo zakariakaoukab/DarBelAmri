@@ -5,8 +5,11 @@ import './App.css'
 import p250 from './assets/p250.png'
 import p500 from './assets/p500.png'
 import p1l from './assets/p1l.png'
-import logoImg from './assets/logo_final.png'
+import logoImg from './assets/logo1.png'
 import founderImage from './assets/founder_image.png'
+import onssaLogo from './assets/ONSSA Logo-vector.svg'
+import onssaLogoColor from './assets/onssa-logo.png'
+import bgHero from './assets/bg-hero2.jpg'
 
 /* ─────────────────────────────────────────────
    THREE.JS PARTICLE BACKGROUND
@@ -75,7 +78,7 @@ function Background3D() {
       side: THREE.DoubleSide
     })
 
-    const count = 450
+    const count = 120
     const instancedMesh = new THREE.InstancedMesh(petalGeo, petalMat, count)
     scene.add(instancedMesh)
 
@@ -415,8 +418,7 @@ export default function App() {
 
   return (
     <>
-      {/* ── 3-D BACKGROUND ── */}
-      <Background3D />
+      {/* 3-D BACKGROUND MOVED TO HERO SECTION */}
       <div dir="rtl" style={{ overflowX: 'hidden', background: 'var(--cream)', color: 'var(--navy)' }}>
 
       {/* ── NAVBAR ── */}
@@ -469,11 +471,42 @@ export default function App() {
       <main style={{ position: 'relative', zIndex: 10, width: '100%' }}>
 
         {/* ── HERO ── */}
-        <section className="hero" id="hero">
-          <div className="hero-inner">
+        <section className="hero" id="hero" style={{
+          position: 'relative',
+          overflow: 'hidden',
+          transform: 'translateZ(0)' // Creates a stacking context and contains fixed elements
+        }}>
+          {/* Premium Background Image */}
+          <div style={{
+            position: 'absolute',
+            inset: 0,
+            backgroundImage: `url(${bgHero})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundAttachment: 'fixed',
+            zIndex: -2
+          }}></div>
+          
+          {/* Glass Overlay for Text Legibility */}
+          <div style={{
+            position: 'absolute',
+            inset: 0,
+            background: 'linear-gradient(to bottom, rgba(253, 251, 247, 0.4) 0%, rgba(253, 251, 247, 0.9) 100%)',
+            backdropFilter: 'blur(2px)',
+            zIndex: -1
+          }}></div>
+
+          {/* Floating Particles - Explicitly forced behind text */}
+          <div style={{ position: 'absolute', inset: 0, zIndex: 0 }}>
+            <Background3D />
+          </div>
+
+          <div className="hero-inner" style={{ position: 'relative', zIndex: 10 }}>
             
             <div className="certification-pill reveal" style={{ transitionDelay: '0.1s' }}>
-              <div className="certification-icon"><ShieldCheckIcon /></div>
+              <div className="certification-icon" style={{ display: 'flex', alignItems: 'center' }}>
+                <img src={onssaLogo} alt="ONSSA Logo" style={{ height: '24px', width: 'auto', objectFit: 'contain' }} />
+              </div>
               <div className="certification-text" dir="ltr">
                 <span style={{ fontWeight: 600, color: '#1B1464' }}>PAR.2.377.26</span>
                 <span style={{ color: '#1B1464', margin: '0 0.4rem', fontWeight: '300' }}>-</span>
@@ -483,10 +516,29 @@ export default function App() {
 
             <h1 className="hero-title reveal" style={{ transitionDelay: '0.2s', fontSize: 'clamp(2.5rem, 6vw, 5rem)', lineHeight: '1.2' }}>
               Fleur d'Oranger - Dar Bel Amri<br />
-              <em style={{ fontSize: 'clamp(2rem, 5vw, 4rem)', display: 'block', marginTop: '1rem', color: 'rgb(230, 0, 126)' }}>نكهة الأصالة المغربية</em>
+              <em style={{ 
+                fontSize: 'clamp(2rem, 5vw, 4rem)', 
+                display: 'block', 
+                marginTop: '1rem', 
+                background: 'linear-gradient(135deg, #E6007E 0%, #D4AF37 100%)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                backgroundClip: 'text',
+                color: 'transparent',
+                fontWeight: '700'
+              }}>نكهة الأصالة المغربية</em>
             </h1>
 
-            <p className="hero-subtitle reveal" style={{ transitionDelay: '0.4s' }}>
+            <p className="hero-subtitle reveal" style={{ 
+              transitionDelay: '0.4s',
+              background: 'linear-gradient(90deg, #1B1464 0%, #E6007E 100%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text',
+              color: 'transparent',
+              fontWeight: '700',
+              textShadow: '0px 0px 30px rgba(255,255,255,0.8)' // extra legibility
+            }}>
               من قلب المنطقة الصناعية بسلا، نقدم لكم خبرة مغربية أصيلة في عالم النكهات الطبيعية وماء الزهر
             </p>
 
@@ -677,7 +729,10 @@ export default function App() {
             <div className="footer-bar">
               <p>© {new Date().getFullYear()} شركة Fleur d'Oranger. جميع الحقوق محفوظة.</p>
               <div className="footer-legal" style={{ color: 'var(--cream)', fontSize: '0.75rem', letterSpacing: '0.05em', direction: 'ltr' }}>
-                <span style={{ fontWeight: 600, opacity: 1 }}>ONSSA: PAR.2.377.26</span>
+                <span style={{ fontWeight: 600, opacity: 1, display: 'inline-flex', alignItems: 'center', gap: '0.5rem' }}>
+                  <img src={onssaLogo} alt="ONSSA" style={{ height: '24px' }} />
+                  ONSSA: PAR.2.377.26
+                </span>
                 <span className="sep" style={{ opacity: 0.6 }}>|</span>
                 <span style={{ fontWeight: 300, opacity: 0.8 }}>IF: 3342747</span>
                 <span className="sep" style={{ opacity: 0.6 }}>|</span>

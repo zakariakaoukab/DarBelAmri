@@ -65,20 +65,15 @@
 }
 
 .navbar-logo-wrap {
-  width: 42px;
-  height: 42px;
-  border-radius: 50%;
-  box-shadow: 0 0 22px rgba(201, 160, 62, 0.45);
+  height: 48px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(255,255,255,0.05); /* Optional soft bg inside */
-  overflow: hidden;
 }
 
 .navbar-logo {
-  width: 100%;
   height: 100%;
+  width: auto;
   object-fit: contain;
   transition: opacity 0.8s ease;
 }
@@ -352,7 +347,8 @@
   align-items: center;
   justify-content: center;
   margin: 1rem auto 2rem;
-  padding: 10px 55px; /* Symmetrical padding to center text exactly */
+  padding: 10px 30px; /* Adjusted padding */
+  gap: 15px; /* Added gap to create space between logo and text */
   border-radius: 999px; /* Capsule/pill shape */
   background: linear-gradient(135deg, rgba(212, 175, 55, 0.03) 0%, rgba(212, 175, 55, 0.12) 100%);
   backdrop-filter: blur(4px);
@@ -363,8 +359,6 @@
 }
 
 .certification-icon {
-  position: absolute;
-  left: 18px; /* Far Left */
   display: flex;
   align-items: center;
   justify-content: center;
